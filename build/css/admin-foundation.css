@@ -1,0 +1,175 @@
+/*!
+ * SSIA admin foundation
+ * WordPress-admin reset, design tokens, base typography.
+ * Token source of truth: do not redefine these in admin-premium.css.
+ */
+
+/* WordPress admin shell adjustments so the React root spans the content area
+   without inheriting wp-admin form widths and bottom padding artifacts. */
+body.wp-admin.toplevel_page_ssia-dashboard {
+	background: #f6f7f7;
+}
+
+body.wp-admin.toplevel_page_ssia-dashboard #wpcontent {
+	padding-left: 0;
+}
+
+body.wp-admin.toplevel_page_ssia-dashboard #wpbody-content {
+	padding-bottom: 0;
+}
+
+body.wp-admin.toplevel_page_ssia-dashboard #wpbody-content::after {
+	display: none;
+	content: none;
+}
+
+body.wp-admin.toplevel_page_ssia-dashboard #wpfooter {
+	display: none;
+}
+
+/* Design tokens — single source of truth.
+   The premium layer composes the look on top of these tokens; it must not
+   redeclare any --ssia-* variable. */
+.ssia-admin {
+	/* Color palette — WordPress-native blue with a calm neutral surface. */
+	--ssia-blue:           #2271b1;
+	--ssia-blue-hover:     #135e96;
+	--ssia-blue-active:    #0a4b78;
+	--ssia-blue-soft:      #f0f6fc;
+	--ssia-bg:             #f6f7f7;
+	--ssia-surface:        #ffffff;
+	--ssia-surface-subtle: #fbfcfd;
+	--ssia-border:         #dcdcde;
+	--ssia-border-strong:  #c3c4c7;
+	--ssia-text:           #1d2327;
+	--ssia-text-muted:     #50575e;
+	--ssia-text-subtle:    #757781;
+
+	/* Status palette. */
+	--ssia-success:        #007a35;
+	--ssia-success-soft:   #edfaef;
+	--ssia-success-border: #b8e0c2;
+	--ssia-warning:        #996800;
+	--ssia-warning-soft:   #fcf9e8;
+	--ssia-warning-border: #ebd277;
+	--ssia-danger:         #b32d2e;
+	--ssia-danger-soft:    #fcf0f1;
+	--ssia-danger-border:  #f0c3c4;
+
+	/* Spacing scale (4px base). */
+	--ssia-space-1:  4px;
+	--ssia-space-2:  8px;
+	--ssia-space-3: 12px;
+	--ssia-space-4: 16px;
+	--ssia-space-5: 20px;
+	--ssia-space-6: 24px;
+	--ssia-space-7: 32px;
+	--ssia-space-8: 40px;
+
+	/* Shape. */
+	--ssia-radius-sm:  6px;
+	--ssia-radius:     8px;
+	--ssia-radius-lg: 12px;
+	--ssia-round:    999px;
+
+	/* Sizing. */
+	--ssia-field-height:   40px;
+	--ssia-control-height: 36px;
+	--ssia-shell-max:    1280px;
+
+	/* Elevation. */
+	--ssia-shadow-xs: 0 1px 2px rgba(0, 0, 0, .04);
+	--ssia-shadow-sm: 0 2px 4px rgba(0, 0, 0, .04), 0 1px 2px rgba(0, 0, 0, .04);
+	--ssia-shadow:    0 6px 16px rgba(0, 0, 0, .06), 0 2px 4px rgba(0, 0, 0, .04);
+	--ssia-shadow-lg: 0 16px 32px rgba(0, 0, 0, .08), 0 4px 8px rgba(0, 0, 0, .04);
+
+	/* Focus ring (WordPress standard). */
+	--ssia-focus-ring: 0 0 0 1px #fff, 0 0 0 3px var(--ssia-blue);
+}
+
+/* Box sizing reset, scoped. */
+.ssia-admin,
+.ssia-admin *,
+.ssia-admin *::before,
+.ssia-admin *::after {
+	box-sizing: border-box;
+}
+
+/* Root layout. */
+.ssia-admin {
+	margin: 0;
+	padding: var(--ssia-space-6) clamp(var(--ssia-space-4), 3vw, var(--ssia-space-7));
+	color: var(--ssia-text);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
+		Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.ssia-admin__shell {
+	max-width: var(--ssia-shell-max);
+	margin: 0 auto;
+}
+
+.ssia-admin__shell > * + * {
+	margin-top: var(--ssia-space-5);
+}
+
+/* Base typography. */
+.ssia-admin h1,
+.ssia-admin h2,
+.ssia-admin h3 {
+	margin: 0;
+	color: var(--ssia-text);
+	font-weight: 600;
+	letter-spacing: -0.01em;
+}
+
+.ssia-admin h1 { font-size: 23px; line-height: 1.25; }
+.ssia-admin h2 { font-size: 18px; line-height: 1.3;  }
+.ssia-admin h3 { font-size: 15px; line-height: 1.4;  }
+
+.ssia-admin p {
+	margin: 0;
+	color: var(--ssia-text-muted);
+	font-size: 14px;
+	line-height: 1.55;
+}
+
+.ssia-admin strong { font-weight: 600; }
+.ssia-admin small  { font-size: 12px; color: var(--ssia-text-subtle); }
+
+.ssia-admin a {
+	color: var(--ssia-blue);
+	text-decoration: none;
+}
+
+.ssia-admin a:hover  { color: var(--ssia-blue-hover); text-decoration: underline; }
+
+/* Universal focus — WordPress-style ring on every interactive element. */
+.ssia-admin :where(button, a, input, select, textarea):focus-visible {
+	outline: 2px solid transparent;
+	box-shadow: var(--ssia-focus-ring);
+	border-radius: var(--ssia-radius-sm);
+}
+
+/* Hidden but accessible to screen readers. */
+.ssia-admin .screen-reader-text {
+	position: absolute;
+	width: 1px; height: 1px;
+	padding: 0; margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+	.ssia-admin *,
+	.ssia-admin *::before,
+	.ssia-admin *::after {
+		transition-duration: 0.01ms;
+		animation-duration: 0.01ms;
+	}
+}

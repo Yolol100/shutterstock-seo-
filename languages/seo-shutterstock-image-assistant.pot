@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SEO Image Assistant for Shutterstock 1.6.74\n"
+"Report-Msgid-Bugs-To: https://webactueel.nl/\n"
+"POT-Creation-Date: 2026-05-20 00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: seo-shutterstock-image-assistant\n"
+
+msgid "Shutterstock subscription ID"
+msgstr ""
+
+msgid "Leave empty for auto-detection, or paste your corporate/team subscription ID."
+msgstr ""
+
+msgid "No active Shutterstock image subscription was found for this connected account. Reconnect OAuth and choose the corporate/team account, or enter the corporate subscription ID in Settings."
+msgstr ""
+
+msgid "Shutterstock OAuth connection and subscription check passed."
+msgstr ""
+
+msgid "Subscription ID detected:"
+msgstr ""
+
+msgid "Save your credentials, then test the connection."
+msgstr ""
+
+msgid "Callback URL"
+msgstr ""
+
+msgid "Consumer key"
+msgstr ""
+
+msgid "Consumer secret"
+msgstr ""
+
+msgid "Access token"
+msgstr ""
+
+msgid "Paste an existing access token here or connect via OAuth."
+msgstr ""
+
+msgid "Test connection"
+msgstr ""

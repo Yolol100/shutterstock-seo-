@@ -1,0 +1,28 @@
+/*!
+ * SSIA admin responsive layer
+ * Breakpoints that don't logically belong to a component file.
+ * Component-level responsive rules live in admin-premium.css.
+ */
+
+/* WP admin sidebar collapses at 782px; reduce shell padding to match. */
+@media (max-width: 782px) {
+	.ssia-admin {
+		padding: var(--ssia-space-4) var(--ssia-space-3);
+	}
+
+	.ssia-admin__shell > * + * {
+		margin-top: var(--ssia-space-4);
+	}
+}
+
+/* Phones: tighter type and looser padding. */
+@media (max-width: 480px) {
+	.ssia-admin h1 { font-size: 21px; }
+	.ssia-admin h2 { font-size: 17px; }
+
+	.ssia-admin__section-head,
+	.ssia-admin__settings-head {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}

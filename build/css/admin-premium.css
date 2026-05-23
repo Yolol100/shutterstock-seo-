@@ -1,0 +1,1394 @@
+/*!
+ * SSIA admin premium layer
+ * Single design system on top of admin-foundation.css.
+ * Targets only the class set rendered by the React app.
+ *
+ * is used only on @wordpress/components overrides where the
+ * vendor stylesheet would otherwise win on specificity.
+ */
+
+/* =========================================================================
+   1.  Shell + general cards
+   ========================================================================= */
+
+.ssia-admin .components-card,
+.ssia-admin .ssia-admin__card,
+.ssia-admin .ssia-admin__settings-card {
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+	box-shadow: var(--ssia-shadow-sm);
+	overflow: hidden;
+}
+
+.ssia-admin .components-card__body {
+	padding: var(--ssia-space-6);
+}
+
+@media (max-width: 600px) {
+	.ssia-admin .components-card__body {
+		padding: var(--ssia-space-4);
+	}
+}
+
+/* Section heads inside cards. */
+.ssia-admin__section-head,
+.ssia-admin__settings-head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--ssia-space-4);
+	margin-bottom: var(--ssia-space-5);
+	padding-bottom: var(--ssia-space-4);
+	border-bottom: 1px solid var(--ssia-border);
+}
+
+.ssia-admin__section-head > div,
+.ssia-admin__settings-head > div {
+	min-width: 0;
+}
+
+.ssia-admin__section-head p,
+.ssia-admin__settings-head p {
+	margin-top: var(--ssia-space-1);
+	max-width: 64ch;
+}
+
+/* =========================================================================
+   2.  Step tabs (top navigation, also rendered as .ssia-admin__tabs)
+   ========================================================================= */
+
+.ssia-admin__step-tabs {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--ssia-space-2);
+	margin: 0 0 var(--ssia-space-5);
+	padding: 0;
+}
+
+.ssia-admin__step-tabs button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ssia-space-2);
+	min-height: 44px;
+	padding: 0 var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius);
+	background: var(--ssia-surface);
+	color: var(--ssia-text-muted);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.ssia-admin__step-tabs button:hover:not(.is-active) {
+	border-color: var(--ssia-blue);
+	color: var(--ssia-blue);
+	background: var(--ssia-blue-soft);
+}
+
+.ssia-admin__step-tabs button.is-active {
+	background: var(--ssia-blue);
+	border-color: var(--ssia-blue);
+	color: #fff;
+	box-shadow: var(--ssia-shadow-xs);
+}
+
+.ssia-admin__step-tabs button span:not(.dashicons) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 22px;
+	height: 22px;
+	padding: 0 6px;
+	border-radius: var(--ssia-round);
+	background: var(--ssia-blue-soft);
+	color: var(--ssia-blue);
+	font-size: 11px;
+	font-weight: 700;
+}
+
+.ssia-admin__step-tabs button.is-active span:not(.dashicons) {
+	background: rgba(255, 255, 255, .22);
+	color: #fff;
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__step-tabs {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 480px) {
+	.ssia-admin__step-tabs {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* WordPress TabPanel variant (.ssia-admin__tabs). */
+.ssia-admin__tabs .components-tab-panel__tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-1);
+	margin: 0 0 var(--ssia-space-5);
+	padding: 0;
+	border: 0;
+	border-bottom: 1px solid var(--ssia-border);
+	border-radius: 0;
+	background: transparent;
+}
+
+.ssia-admin__tabs .components-tab-panel__tabs button {
+	height: 44px;
+	padding: 0 var(--ssia-space-4);
+	border: 0;
+	border-bottom: 2px solid transparent;
+	border-radius: 0;
+	background: transparent;
+	color: var(--ssia-text-muted);
+	font-weight: 600;
+	box-shadow: none;
+}
+
+.ssia-admin__tabs .components-tab-panel__tabs button:hover {
+	color: var(--ssia-blue);
+}
+
+.ssia-admin__tabs .components-tab-panel__tabs button.is-active,
+.ssia-admin__tabs .components-tab-panel__tabs button[aria-selected="true"] {
+	border-bottom-color: var(--ssia-blue);
+	color: var(--ssia-blue);
+}
+
+.ssia-admin__tab-panel {
+	display: grid;
+	gap: var(--ssia-space-5);
+}
+
+/* =========================================================================
+   3.  Scan panel (Step 1 — find pages CTA)
+   ========================================================================= */
+
+.ssia-admin__scan-panel {
+	display: grid;
+	grid-template-columns: minmax(0, 720px) auto;
+	justify-content: space-between;
+	align-items: start;
+	gap: var(--ssia-space-5);
+	margin: 0 0 var(--ssia-space-5);
+	padding: var(--ssia-space-5);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: linear-gradient(135deg, var(--ssia-blue-soft) 0%, var(--ssia-surface) 100%);
+}
+
+.ssia-admin__scan-content {
+	display: grid;
+	gap: var(--ssia-space-2);
+	min-width: 0;
+}
+
+.ssia-admin__scan-kicker {
+	display: inline-flex;
+	align-items: center;
+	width: max-content;
+	padding: 2px var(--ssia-space-3);
+	border: 1px solid var(--ssia-blue);
+	border-radius: var(--ssia-round);
+	background: var(--ssia-surface);
+	color: var(--ssia-blue);
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.6;
+	text-transform: uppercase;
+	letter-spacing: .04em;
+}
+
+.ssia-admin__scan-content strong {
+	color: var(--ssia-text);
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: -.01em;
+}
+
+.ssia-admin__scan-description {
+	max-width: 56ch;
+	color: var(--ssia-text-muted);
+	font-size: 14px;
+	line-height: 1.55;
+}
+
+.ssia-admin .components-button.ssia-admin__scan-button {
+	align-self: center;
+	justify-content: center;
+	min-width: 0;
+	min-height: var(--ssia-control-height);
+	height: var(--ssia-control-height);
+	padding: 0 var(--ssia-space-4);
+	border-radius: var(--ssia-radius);
+	font-weight: 600;
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__scan-panel {
+		grid-template-columns: 1fr;
+		align-items: stretch;
+	}
+	.ssia-admin__scan-description { max-width: none; }
+	.ssia-admin .components-button.ssia-admin__scan-button { justify-self: start; }
+}
+
+/* =========================================================================
+   4.  Page list / page row (Step 1 results)
+   ========================================================================= */
+
+.ssia-admin__page-list,
+.ssia-admin__result-list {
+	display: grid;
+	gap: var(--ssia-space-2);
+}
+
+.ssia-admin__page-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+	align-items: center;
+	gap: var(--ssia-space-4);
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+	cursor: default;
+	transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+@media (min-width: 961px) {
+	.ssia-admin__page-row {
+		grid-template-columns: minmax(440px, 42%) minmax(360px, 1fr) max-content;
+	}
+
+	.ssia-admin__row-actions {
+		min-width: 286px;
+	}
+}
+
+.ssia-admin__page-row:hover {
+	border-color: var(--ssia-border-strong);
+	box-shadow: var(--ssia-shadow-xs);
+}
+
+.ssia-admin__page-row.is-selected {
+	border-color: var(--ssia-blue);
+	background: var(--ssia-blue-soft);
+	box-shadow: 0 0 0 1px var(--ssia-blue);
+}
+
+.ssia-admin__page-select {
+	display: grid;
+	grid-template-columns: 24px minmax(0, 1fr);
+	align-items: center;
+	gap: var(--ssia-space-3);
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+	min-width: 0;
+}
+
+.ssia-admin__page-select:focus-visible {
+	outline: 2px solid var(--ssia-blue);
+	outline-offset: 4px;
+	border-radius: var(--ssia-radius-sm);
+	box-shadow: none;
+}
+
+.ssia-admin__row-check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	border: 1.5px solid var(--ssia-border-strong);
+	border-radius: var(--ssia-radius-sm);
+	background: var(--ssia-surface);
+	color: transparent;
+	font-size: 0;
+	transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+
+.ssia-admin__page-row.is-selected .ssia-admin__row-check {
+	border-color: var(--ssia-blue);
+	background: var(--ssia-blue);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.ssia-admin__row-main {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.ssia-admin__row-main strong {
+	color: var(--ssia-text);
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ssia-admin__row-main small {
+	color: var(--ssia-text-subtle);
+	font-size: 12px;
+}
+
+/* Missing-slot badges.
+   Fixed 4-column grid (one column per possible image slot) so badges line
+   up across rows even when some rows have fewer missing slots. React renders
+   .is-placeholder badges to keep the columns aligned. */
+.ssia-admin__slots {
+	display: grid;
+	grid-template-columns: max-content max-content max-content max-content;
+	align-items: center;
+	column-gap: var(--ssia-space-2);
+	row-gap: var(--ssia-space-1);
+	min-width: 0;
+}
+
+@media (max-width: 640px) {
+	.ssia-admin__slots {
+		grid-template-columns: max-content max-content;
+	}
+}
+
+.ssia-admin__slots em {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 26px;
+	padding: 2px var(--ssia-space-3);
+	border: 1px solid var(--ssia-warning-border);
+	border-radius: var(--ssia-round);
+	background: var(--ssia-warning-soft);
+	color: var(--ssia-warning);
+	font-size: 11px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.ssia-admin__slots em.is-placeholder {
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.ssia-admin__row-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-2);
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.ssia-admin__row-actions a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 32px;
+}
+
+@media (max-width: 900px) {
+	.ssia-admin__page-row {
+		grid-template-columns: 1fr;
+	}
+	.ssia-admin__row-actions {
+		justify-content: flex-start;
+	}
+}
+
+/* Result row variants (used after import). */
+.ssia-admin__result-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+	gap: var(--ssia-space-3);
+	align-items: center;
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+}
+
+.ssia-admin__result-row.is-success {
+	border-color: var(--ssia-success-border);
+	background: var(--ssia-success-soft);
+}
+
+.ssia-admin__result-row.is-failed,
+.ssia-admin__result-row.is-attention {
+	border-color: var(--ssia-danger-border);
+	background: var(--ssia-danger-soft);
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__result-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* =========================================================================
+   5.  Filter grid (Step 2 search refinements)
+   ========================================================================= */
+
+.ssia-admin__filter-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(210px, 1fr)) minmax(340px, 1fr);
+	gap: var(--ssia-space-4);
+	align-items: end;
+	padding: var(--ssia-space-4);
+	margin: 0 0 var(--ssia-space-5);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface-subtle);
+}
+
+.ssia-admin__field--batch {
+	min-width: 0;
+}
+
+.ssia-admin__batch-selects {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--ssia-space-3);
+}
+
+.ssia-admin__mini-field {
+	display: grid;
+	gap: var(--ssia-space-1);
+	min-width: 0;
+}
+
+.ssia-admin__mini-field > span {
+	color: var(--ssia-text-muted);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+@media (max-width: 1180px) {
+	.ssia-admin__filter-grid {
+		grid-template-columns: repeat(2, minmax(220px, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.ssia-admin__filter-grid,
+	.ssia-admin__batch-selects {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* =========================================================================
+   6.  Search box (Step 2 keyword + button)
+   ========================================================================= */
+
+.ssia-admin__search-box {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 160px;
+	align-items: stretch;
+	gap: var(--ssia-space-3);
+	width: 100%;
+	margin: 0 0 var(--ssia-space-4);
+}
+
+.ssia-admin__search-input-wrap {
+	min-width: 0;
+}
+
+.ssia-admin .ssia-admin__search-input,
+.ssia-admin .components-button.ssia-admin__search-submit {
+	min-height: 52px;
+	height: 52px;
+	padding: 0 var(--ssia-space-5);
+	border-radius: var(--ssia-radius-lg);
+}
+
+.ssia-admin .ssia-admin__search-input {
+	display: block;
+	width: 100%;
+	border: 1px solid var(--ssia-border-strong);
+	background: var(--ssia-surface);
+	color: var(--ssia-text);
+	font-size: 15px;
+	line-height: 1.4;
+	box-shadow: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.ssia-admin .ssia-admin__search-input:focus {
+	border-color: var(--ssia-blue);
+	box-shadow: 0 0 0 3px rgba(34, 113, 177, .18);
+	outline: 2px solid transparent;
+}
+
+.ssia-admin .components-button.ssia-admin__search-submit {
+	min-width: 160px;
+	background: var(--ssia-blue);
+	border: 1px solid var(--ssia-blue);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	justify-content: center;
+}
+
+.ssia-admin .components-button.ssia-admin__search-submit:hover:not(:disabled) {
+	background: var(--ssia-blue-hover);
+	border-color: var(--ssia-blue-hover);
+	color: #fff;
+}
+
+.ssia-admin__search-note {
+	margin: 0 0 var(--ssia-space-4);
+	color: var(--ssia-text-subtle);
+	font-size: 12px;
+}
+
+@media (max-width: 600px) {
+	.ssia-admin__search-box {
+		grid-template-columns: 1fr;
+	}
+	.ssia-admin .components-button.ssia-admin__search-submit {
+		min-width: 0;
+		width: 100%;
+	}
+}
+
+/* =========================================================================
+   7.  Selection summary (Step 2 counter bar)
+   ========================================================================= */
+
+.ssia-admin__selection-summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-2) var(--ssia-space-3);
+	align-items: center;
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	margin: 0 0 var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface-subtle);
+	color: var(--ssia-text-muted);
+	font-size: 13px;
+}
+
+.ssia-admin__selection-summary :is(strong, em),
+.ssia-admin__floating-selection strong {
+	display: inline-flex;
+	align-items: center;
+	min-height: 28px;
+	padding: 2px var(--ssia-space-3);
+	border-radius: var(--ssia-round);
+	font-style: normal;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.ssia-admin__selection-summary strong.is-needed,
+.ssia-admin__floating-selection strong.is-needed {
+	border: 1px solid var(--ssia-warning-border);
+	background: var(--ssia-warning-soft);
+	color: var(--ssia-warning);
+}
+
+.ssia-admin__selection-summary strong.is-complete,
+.ssia-admin__floating-selection strong.is-complete {
+	border: 1px solid var(--ssia-success-border);
+	background: var(--ssia-success-soft);
+	color: var(--ssia-success);
+}
+
+/* =========================================================================
+   8.  Image grid + image card (Step 2 results, Step 3 review)
+   ========================================================================= */
+
+.ssia-admin__image-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: var(--ssia-space-4);
+}
+
+.ssia-admin__image-card {
+	position: relative;
+	display: grid;
+	grid-template-rows: auto 1fr;
+	min-width: 0;
+	padding: 0;
+	border: 1px solid var(--ssia-border);
+	border-radius: 18px;
+	background: var(--ssia-surface);
+	overflow: hidden;
+	color: var(--ssia-text);
+	text-align: left;
+	cursor: pointer;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
+	transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease, transform .15s ease;
+}
+
+.ssia-admin__image-card:hover {
+	border-color: var(--ssia-blue);
+	box-shadow: 0 14px 34px rgba(15, 23, 42, .10);
+	transform: translateY(-1px);
+}
+
+.ssia-admin__image-card.is-selected {
+	border-color: var(--ssia-blue);
+	background: var(--ssia-blue-soft);
+	box-shadow: 0 0 0 3px rgba(34, 113, 177, .18), 0 14px 34px rgba(15, 23, 42, .10);
+}
+
+.ssia-admin__image-frame {
+	display: block;
+	aspect-ratio: 4 / 3;
+	background: var(--ssia-bg);
+	overflow: hidden;
+}
+
+.ssia-admin__image-frame img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ssia-admin__image-copy {
+	display: grid;
+	gap: var(--ssia-space-1);
+	padding: var(--ssia-space-3);
+}
+
+.ssia-admin__image-copy strong {
+	font-size: 13px;
+	color: var(--ssia-text);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.ssia-admin__image-copy small {
+	font-size: 11px;
+	color: var(--ssia-text-subtle);
+}
+
+.ssia-admin__image-check {
+	position: absolute;
+	top: var(--ssia-space-3);
+	right: var(--ssia-space-3);
+	z-index: 2;
+	width: 32px;
+	height: 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--ssia-round);
+	background: var(--ssia-blue);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1;
+	box-shadow: 0 0 0 2px var(--ssia-surface), 0 10px 22px rgba(34, 113, 177, .26);
+}
+
+/* =========================================================================
+   9.  Field cards + form controls
+   ========================================================================= */
+
+/* The .ssia-admin__field component is used both standalone and inside grids. */
+.ssia-admin__field {
+	display: grid;
+	gap: var(--ssia-space-2);
+	margin: 0;
+}
+
+.ssia-admin__field > span {
+	color: var(--ssia-text);
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0;
+}
+
+/* When a field card lives inside a settings/connection/acf grid we give it
+   the WordPress-native bordered surface that "Premium" implies. */
+.ssia-admin__settings-grid-clean > .ssia-admin__field,
+.ssia-admin__connection-grid > .ssia-admin__field,
+.ssia-admin__acf-grid > .ssia-admin__field {
+	min-height: 96px;
+	padding: var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+	align-content: center;
+	justify-items: stretch;
+}
+
+.ssia-admin__connection-grid > .ssia-admin__field:has(.ssia-admin__textarea) {
+	grid-column: 1 / -1;
+}
+
+.ssia-admin__settings-grid-clean > .ssia-admin__field select,
+.ssia-admin__acf-grid > .ssia-admin__field select,
+.ssia-admin__connection-grid > .ssia-admin__field select {
+	width: 100%;
+	max-width: none;
+}
+
+/* Reset @wordpress/components BaseControl chrome we don't want. */
+.ssia-admin .components-base-control,
+.ssia-admin .components-base-control__field {
+	display: block;
+	width: 100%;
+	margin-bottom: 0;
+	min-width: 0;
+}
+
+.ssia-admin .components-base-control__label {
+	margin-bottom: var(--ssia-space-2);
+	color: var(--ssia-text);
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.ssia-admin .components-base-control__help {
+	margin-top: var(--ssia-space-2);
+	color: var(--ssia-text-subtle);
+	font-size: 12px;
+	line-height: 1.45;
+}
+
+/* Inputs, selects, textareas — one consistent control look. */
+.ssia-admin input[type="text"],
+.ssia-admin input[type="password"],
+.ssia-admin input[type="number"],
+.ssia-admin input[type="email"],
+.ssia-admin input[type="url"],
+.ssia-admin input[type="search"]:not(.ssia-admin__search-input),
+.ssia-admin textarea,
+.ssia-admin select,
+.ssia-admin .components-text-control__input,
+.ssia-admin .components-textarea-control__input,
+.ssia-admin .ssia-admin__textarea {
+	width: 100%;
+	min-height: var(--ssia-field-height);
+	height: var(--ssia-field-height);
+	margin: 0;
+	padding: 8px var(--ssia-space-3);
+	border: 1px solid var(--ssia-border-strong);
+	border-radius: var(--ssia-radius);
+	background: var(--ssia-surface);
+	color: var(--ssia-text);
+	font-size: 14px;
+	line-height: 1.4;
+	box-shadow: none;
+}
+
+.ssia-admin textarea,
+.ssia-admin .components-textarea-control__input,
+.ssia-admin .ssia-admin__textarea {
+	min-height: 112px;
+	height: auto;
+	padding: var(--ssia-space-2) var(--ssia-space-3);
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	resize: vertical;
+}
+
+.ssia-admin input:focus,
+.ssia-admin textarea:focus,
+.ssia-admin select:focus,
+.ssia-admin .components-text-control__input:focus,
+.ssia-admin .components-textarea-control__input:focus,
+.ssia-admin .ssia-admin__textarea:focus {
+	border-color: var(--ssia-blue);
+	box-shadow: 0 0 0 1px var(--ssia-blue);
+	outline: 2px solid transparent;
+}
+
+/* Selects use one consistent, browser-safe chevron with extra right breathing room. */
+.ssia-admin select {
+	display: block;
+	width: 100%;
+	max-width: none;
+	padding-right: 48px;
+	appearance: none;
+	-webkit-appearance: none;
+	background-color: var(--ssia-surface);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 20 20'%3E%3Cpath fill='%231e293b' d='M5.7 7.3a1 1 0 0 1 1.4 0L10 10.17l2.9-2.88a1 1 0 1 1 1.4 1.42l-3.6 3.58a1 1 0 0 1-1.4 0L5.7 8.7a1 1 0 0 1 0-1.42z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 18px center;
+	background-size: 18px 18px;
+}
+
+.ssia-admin select::-ms-expand {
+	display: none;
+}
+
+/* Strip the inner @wordpress/components InputControl chrome so its borders
+   don't compete with ours. */
+.ssia-admin .components-input-control,
+.ssia-admin .components-input-control__container,
+.ssia-admin .components-input-control__backdrop {
+	display: block;
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+/* =========================================================================
+   10.  Buttons (wp-components is-primary / is-secondary / is-tertiary)
+   ========================================================================= */
+
+.ssia-admin .components-button {
+	min-height: var(--ssia-control-height);
+	height: var(--ssia-control-height);
+	padding: 0 var(--ssia-space-4);
+	border-radius: var(--ssia-radius);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1;
+	box-shadow: none;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.ssia-admin .components-button.is-primary {
+	background: var(--ssia-blue);
+	border: 1px solid var(--ssia-blue);
+	color: #fff;
+}
+
+.ssia-admin .components-button.is-primary:hover:not(:disabled) {
+	background: var(--ssia-blue-hover);
+	border-color: var(--ssia-blue-hover);
+	color: #fff;
+}
+
+.ssia-admin .components-button.is-primary:active:not(:disabled) {
+	background: var(--ssia-blue-active);
+	border-color: var(--ssia-blue-active);
+}
+
+.ssia-admin .components-button.is-secondary {
+	background: var(--ssia-surface);
+	border: 1px solid var(--ssia-border-strong);
+	color: var(--ssia-blue);
+}
+
+.ssia-admin .components-button.is-secondary:hover:not(:disabled) {
+	border-color: var(--ssia-blue);
+	background: var(--ssia-blue-soft);
+	color: var(--ssia-blue-hover);
+}
+
+.ssia-admin .components-button.is-tertiary {
+	background: transparent;
+	border: 1px solid transparent;
+	color: var(--ssia-blue);
+	padding-inline: var(--ssia-space-3);
+}
+
+.ssia-admin .components-button.is-tertiary:hover:not(:disabled) {
+	background: var(--ssia-blue-soft);
+	color: var(--ssia-blue-hover);
+}
+
+.ssia-admin .components-button.is-destructive {
+	background: var(--ssia-surface);
+	border: 1px solid var(--ssia-danger-border);
+	color: var(--ssia-danger);
+}
+
+.ssia-admin .components-button.is-destructive:hover:not(:disabled) {
+	background: var(--ssia-danger);
+	border-color: var(--ssia-danger);
+	color: #fff;
+}
+
+.ssia-admin .components-button:disabled,
+.ssia-admin .components-button[aria-disabled="true"] {
+	opacity: .55;
+	cursor: not-allowed;
+}
+
+.ssia-admin__button-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-2);
+	align-items: center;
+	justify-content: flex-end;
+}
+
+/* =========================================================================
+   11.  Action bar
+   ========================================================================= */
+
+.ssia-admin__action-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ssia-space-3);
+	margin: var(--ssia-space-4) 0;
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface-subtle);
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__action-bar {
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.ssia-admin__action-bar .ssia-admin__button-row {
+		justify-content: stretch;
+	}
+	.ssia-admin__action-bar .components-button {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+}
+
+/* =========================================================================
+   12.  Settings grids
+   ========================================================================= */
+
+.ssia-admin__settings-grid-clean,
+.ssia-admin__connection-grid,
+.ssia-admin__acf-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(260px, 1fr));
+	gap: var(--ssia-space-4);
+	width: 100%;
+	align-items: stretch;
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__settings-grid-clean,
+	.ssia-admin__connection-grid,
+	.ssia-admin__acf-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* Connection-grid full-width first/last fields (callback URL + token). */
+.ssia-admin__connection-grid .ssia-admin__field:first-child,
+.ssia-admin__connection-grid .ssia-admin__field:last-child {
+	grid-column: 1 / -1;
+}
+
+/* =========================================================================
+   13.  ACF panel
+   ========================================================================= */
+
+.ssia-admin__acf-panel {
+	display: grid;
+	gap: var(--ssia-space-4);
+}
+
+.ssia-admin__acf-intro {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--ssia-space-3);
+	padding: 0;
+}
+
+.ssia-admin__acf-intro strong {
+	display: block;
+	margin-bottom: var(--ssia-space-1);
+	color: var(--ssia-text);
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.ssia-admin__acf-intro p {
+	margin: 0;
+	color: var(--ssia-text-muted);
+	font-size: 13px;
+}
+
+
+/* =========================================================================
+   14.  Connection panel + status pill
+   ========================================================================= */
+
+.ssia-admin__connection-panel {
+	display: grid;
+	gap: var(--ssia-space-4);
+	width: 100%;
+	max-width: none;
+}
+
+.ssia-admin__connection-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ssia-space-3);
+	padding: var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+}
+
+.ssia-admin__connection-header > div {
+	min-width: 0;
+}
+
+.ssia-admin__connection-header strong {
+	display: block;
+	margin-bottom: var(--ssia-space-1);
+	color: var(--ssia-text);
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.ssia-admin__connection-header p {
+	margin: 0;
+	color: var(--ssia-text-muted);
+	font-size: 13px;
+}
+
+.ssia-admin__connection-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-2);
+	align-items: center;
+}
+
+.ssia-admin__status {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 26px;
+	padding: 2px var(--ssia-space-3);
+	border-radius: var(--ssia-round);
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+	white-space: nowrap;
+}
+
+.ssia-admin__status.is-success {
+	background: var(--ssia-success-soft);
+	color: var(--ssia-success);
+	border: 1px solid var(--ssia-success-border);
+}
+
+.ssia-admin__status.is-warning {
+	background: var(--ssia-warning-soft);
+	color: var(--ssia-warning);
+	border: 1px solid var(--ssia-warning-border);
+}
+
+@media (max-width: 600px) {
+	.ssia-admin__connection-header {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+/* =========================================================================
+   15.  Safe-search toggle switch
+   ========================================================================= */
+
+/* Safe-search toggle: WordPress-native style switch. */
+.ssia-admin__safe-toggle {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ssia-space-2);
+	min-height: var(--ssia-field-height);
+	padding: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.ssia-admin__safe-toggle input[type="checkbox"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+.ssia-admin__switch {
+	position: relative;
+	display: inline-block;
+	flex: 0 0 46px;
+	width: 46px;
+	height: 26px;
+	border-radius: var(--ssia-round);
+	background: var(--ssia-border-strong);
+	transition: background-color .15s ease;
+}
+
+.ssia-admin__switch-knob {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--ssia-surface);
+	box-shadow: 0 1px 3px rgba(15, 23, 42, .25);
+	transition: transform .18s ease;
+}
+
+.ssia-admin__safe-toggle input[type="checkbox"]:checked + .ssia-admin__switch {
+	background: var(--ssia-blue);
+}
+
+.ssia-admin__safe-toggle input[type="checkbox"]:checked + .ssia-admin__switch .ssia-admin__switch-knob {
+	transform: translateX(20px);
+}
+
+.ssia-admin__safe-toggle input[type="checkbox"]:focus-visible + .ssia-admin__switch {
+	box-shadow: var(--ssia-focus-ring);
+}
+
+.ssia-admin__switch-text {
+	color: var(--ssia-text);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* WordPress checkbox (used in misc places). */
+.ssia-admin .components-checkbox-control__input[type="checkbox"]:checked {
+	background: var(--ssia-blue);
+	border-color: var(--ssia-blue);
+}
+
+.ssia-admin .components-checkbox-control__label {
+	color: var(--ssia-text);
+	font-weight: 500;
+}
+
+/* =========================================================================
+   16.  Empty state
+   ========================================================================= */
+
+.ssia-admin__empty {
+	display: grid;
+	place-items: center;
+	gap: var(--ssia-space-2);
+	min-height: 160px;
+	padding: var(--ssia-space-6) clamp(var(--ssia-space-5), 4vw, var(--ssia-space-7));
+	border: 1px dashed var(--ssia-border-strong);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface-subtle);
+	text-align: center;
+}
+
+.ssia-admin__empty strong {
+	color: var(--ssia-text);
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.ssia-admin__empty p {
+	max-width: 56ch;
+	color: var(--ssia-text-muted);
+}
+
+/* =========================================================================
+   17.  Notices
+   ========================================================================= */
+
+.ssia-admin__notice-clean {
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-left: 4px solid var(--ssia-blue);
+	border-radius: var(--ssia-radius);
+	background: var(--ssia-surface-subtle);
+	color: var(--ssia-text-muted);
+	font-size: 13px;
+}
+
+.ssia-admin .components-notice {
+	margin: 0 0 var(--ssia-space-4);
+	border-radius: var(--ssia-radius);
+	color: var(--ssia-text);
+	box-shadow: var(--ssia-shadow-xs);
+}
+
+/* =========================================================================
+   18.  Loading indicator + toasts
+   ========================================================================= */
+
+.ssia-admin__loading {
+	position: fixed;
+	z-index: 99998;
+	left: var(--ssia-overlay-center-x, 50%);
+	bottom: var(--ssia-space-6);
+	transform: translateX(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ssia-space-2);
+	width: fit-content;
+	min-width: 220px;
+	max-width: min(420px, calc(100vw - var(--ssia-space-7)));
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius);
+	background: var(--ssia-surface);
+	box-shadow: var(--ssia-shadow-lg);
+	color: var(--ssia-text);
+	font-size: 13px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.ssia-admin__loading .components-spinner {
+	margin: 0;
+}
+
+.ssia-admin__toast-stack {
+	position: fixed;
+	z-index: 99999;
+	top: auto;
+	right: auto;
+	bottom: var(--ssia-space-6);
+	left: var(--ssia-overlay-center-x, 50%);
+	transform: translateX(-50%);
+	display: grid;
+	justify-items: center;
+	gap: var(--ssia-space-2);
+	width: fit-content;
+	max-width: calc(100vw - var(--ssia-space-7));
+	pointer-events: none;
+}
+
+.ssia-admin__toast-stack .ssia-admin__toast {
+	pointer-events: auto;
+}
+
+@media (max-width: 782px) {
+	.ssia-admin__loading,
+	.ssia-admin__toast-stack {
+		bottom: var(--ssia-space-4);
+		max-width: calc(100vw - var(--ssia-space-5));
+	}
+}
+
+.ssia-admin__toast {
+	width: fit-content;
+	min-width: 220px;
+	max-width: min(420px, calc(100vw - var(--ssia-space-7)));
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-left: 4px solid var(--ssia-blue);
+	border-radius: var(--ssia-radius);
+	background: var(--ssia-surface);
+	color: var(--ssia-text);
+	box-shadow: var(--ssia-shadow-lg);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.45;
+	text-align: left;
+}
+
+.ssia-admin__toast.is-success {
+	border-left-color: var(--ssia-success);
+}
+
+.ssia-admin__toast.is-error,
+.ssia-admin__toast.is-failed {
+	border-left-color: var(--ssia-danger);
+	background: var(--ssia-danger-soft);
+	color: var(--ssia-danger);
+}
+
+.ssia-admin__toast.is-warning {
+	border-left-color: var(--ssia-warning);
+	background: var(--ssia-warning-soft);
+	color: var(--ssia-warning);
+}
+
+/* =========================================================================
+   19.  Floating selection summary (Step 2 sticky pick counter)
+   ========================================================================= */
+
+.ssia-admin__floating-selection {
+	position: fixed;
+	right: var(--ssia-space-5);
+	bottom: var(--ssia-space-5);
+	z-index: 99997;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ssia-space-2) var(--ssia-space-3);
+	align-items: center;
+	max-width: min(460px, calc(100vw - var(--ssia-space-7)));
+	padding: var(--ssia-space-3) var(--ssia-space-4);
+	border: 1px solid var(--ssia-border);
+	border-radius: var(--ssia-radius-lg);
+	background: var(--ssia-surface);
+	box-shadow: var(--ssia-shadow-lg);
+	color: var(--ssia-text);
+	font-size: 13px;
+}
+
+.ssia-admin__floating-selection span {
+	line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+	.ssia-admin__floating-selection {
+		left: var(--ssia-space-3);
+		right: var(--ssia-space-3);
+		bottom: var(--ssia-space-3);
+		max-width: none;
+	}
+}
+
+/* =========================================================================
+   20.  Modal polish (wp-components)
+   ========================================================================= */
+
+.ssia-admin .components-modal__frame {
+	border-radius: var(--ssia-radius-lg);
+	color: var(--ssia-text);
+}
+
+.ssia-admin .components-modal__header {
+	border-bottom: 1px solid var(--ssia-border);
+}
+
+
+/* SSIA 1.6.67: ACF mapping fields should match Defaults tab sizing exactly. */
+.ssia-admin__acf-grid > .ssia-admin__field {
+	align-content: stretch;
+}
+
+.ssia-admin__acf-grid > .ssia-admin__field :is(.components-base-control, .components-base-control__field, .components-input-control, .components-input-control__container) {
+	max-width: none;
+}
+
+.ssia-admin__load-more-row {
+	display: flex;
+	justify-content: center;
+	margin-top: var(--ssia-space-5);
+}
+
+.ssia-admin__load-more-row .components-button {
+	justify-content: center;
+	min-width: 220px;
+}
