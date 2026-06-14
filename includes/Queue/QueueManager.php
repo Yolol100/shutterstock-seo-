@@ -160,6 +160,7 @@ final class QueueManager {
 
 	public static function clear_scheduled_events(): void {
 		wp_clear_scheduled_hook( 'ssia_process_queue' );
+		wp_clear_scheduled_hook( 'ssia_sync_used_ids_batch' );
 		if ( function_exists( 'as_unschedule_all_actions' ) ) {
 			as_unschedule_all_actions( 'ssia_process_page', null, 'ssia' );
 		}

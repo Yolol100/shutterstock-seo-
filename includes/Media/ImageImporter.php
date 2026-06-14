@@ -13,6 +13,7 @@ final class ImageImporter {
 	private const RESERVATIONS_OPTION = 'ssia_reserved_shutterstock_ids';
 	private const RESERVATION_TTL     = 900;
 	private const RESERVATION_LOCK_TTL = 15;
+	private const MAX_DOWNLOAD_BYTES   = 20971520; // 20 MB.
 
 	public function import_many( array $licensed, int $post_id ): array {
 		$attachments = array();
@@ -80,7 +81,7 @@ final class ImageImporter {
 		return $attachment_id ? $attachment_id : new WP_Error( 'ssia_previous_import_failed', __( 'The licensed asset could not be imported.', 'seo-shutterstock-image-assistant' ), array( 'status' => 500 ) );
 	}
 
-	public static function reserve_images( array $image_ids, int $post_id, bool $allow_current_post = false ): true|WP_Error {
+	public static function reserve_images( array $image_ids, int $post_id, bool $allow_current_post = false ): bool|WP_Error {
 		$image_ids = array_values( array_unique( array_filter( array_map( 'sanitize_text_field', $image_ids ) ) ) );
 		$post_id   = absint( $post_id );
 		if ( empty( $image_ids ) ) {
@@ -189,8 +190,15 @@ final class ImageImporter {
 			return 0;
 		}
 
+		$file_check = self::validate_downloaded_file( $tmp );
+		if ( is_wp_error( $file_check ) ) {
+			wp_delete_file( $tmp );
+			( new Logger() )->error( 'download_file_blocked', array( 'image_id' => $image_id, 'message' => $file_check->get_error_message() ) );
+			return 0;
+		}
+
 		$file          = array(
-			'name'     => sanitize_file_name( 'shutterstock-' . $image_id . '.jpg' ),
+			'name'     => sanitize_file_name( 'shutterstock-' . $image_id . self::downloaded_file_extension( $tmp ) ),
 			'tmp_name' => $tmp,
 		);
 		$alt           = $this->alt_text( $post_id );
@@ -229,7 +237,7 @@ final class ImageImporter {
 	}
 
 
-	public static function validate_download_url( string $url ): true|WP_Error {
+	public static function validate_download_url( string $url ): bool|WP_Error {
 		$parts = wp_parse_url( $url );
 		$scheme = isset( $parts['scheme'] ) ? strtolower( (string) $parts['scheme'] ) : '';
 		$host   = isset( $parts['host'] ) ? strtolower( (string) $parts['host'] ) : '';
@@ -318,11 +326,15 @@ final class ImageImporter {
 			}
 		}
 
-		foreach ( self::shutterstock_ids_from_attachments() as $image_id ) {
-			$ids[] = $image_id;
-		}
-
 		return array_values( array_unique( array_filter( array_map( 'strval', $ids ) ) ) );
+	}
+
+	public static function schedule_used_ids_sync( int $offset = 0 ): void {
+		$offset = max( 0, absint( $offset ) );
+		$args   = array( $offset );
+		if ( function_exists( 'wp_next_scheduled' ) && ! wp_next_scheduled( 'ssia_sync_used_ids_batch', $args ) ) {
+			wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'ssia_sync_used_ids_batch', $args );
+		}
 	}
 
 	/**
@@ -330,15 +342,19 @@ final class ImageImporter {
 	 * Call this from explicit maintenance paths (e.g. activation hook or a
 	 * dedicated REST/tools endpoint), never from the search hot path.
 	 */
-	public static function sync_used_ids_from_attachments(): void {
+	public static function sync_used_ids_from_attachments( int $offset = 0 ): void {
 		$used    = self::used();
 		$changed = false;
+		$limit   = absint( apply_filters( 'ssia_used_ids_sync_batch_size', 200 ) );
+		$limit   = max( 25, min( 500, $limit ) );
+		$offset  = max( 0, absint( $offset ) );
 
 		$attachments = get_posts(
 			array(
 				'post_type'              => 'attachment',
 				'post_status'            => 'any',
-				'posts_per_page'         => -1,
+				'posts_per_page'         => $limit,
+				'offset'                 => $offset,
 				'fields'                 => 'ids',
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
@@ -368,35 +384,10 @@ final class ImageImporter {
 		if ( $changed ) {
 			update_option( self::USED_OPTION, $used, false );
 		}
-	}
 
-	private static function shutterstock_ids_from_attachments(): array {
-		$attachments = get_posts(
-			array(
-				'post_type'              => 'attachment',
-				'post_status'            => 'any',
-				'posts_per_page'         => -1,
-				'fields'                 => 'ids',
-				'no_found_rows'          => true,
-				'update_post_meta_cache' => false,
-				'update_post_term_cache' => false,
-				'meta_query'             => array(
-					array(
-						'key'     => '_ssia_shutterstock_id',
-						'compare' => 'EXISTS',
-					),
-				),
-			)
-		);
-
-		$ids = array();
-		foreach ( $attachments as $attachment_id ) {
-			$image_id = sanitize_text_field( (string) get_post_meta( absint( $attachment_id ), '_ssia_shutterstock_id', true ) );
-			if ( '' !== $image_id ) {
-				$ids[] = $image_id;
-			}
+		if ( count( $attachments ) >= $limit ) {
+			self::schedule_used_ids_sync( $offset + $limit );
 		}
-		return $ids;
 	}
 
 	private static function reservations(): array {

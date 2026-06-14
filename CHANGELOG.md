@@ -1,6 +1,14 @@
 # Changelog
 
-## 1.6.77
+## 1.6.78
+- Fix activation fatal risk on PHP 8.1 by replacing PHP 8.2-only `true` return types.
+- Fix activation timeout/memory risk by moving legacy attachment sync to small scheduled batches.
+- Add MIME and filesize validation before importing licensed Shutterstock downloads.
+- Preserve partial licensing successes as recovery records for retry import.
+- Remove Media Library attachment scans from the search hot path.
+- Narrow OAuth callback handling to `admin.php` and reject expired state before token exchange.
+- Default uninstall data deletion to off for safer accidental uninstall recovery.
+
 - Moved every admin toast notification to bottom-center within the WordPress content area.
 - Use a queryless WordPress admin callback URL for Shutterstock OAuth compatibility.
 - Add server-side OAuth callback handling so Shutterstock can redirect to `/wp-admin/admin.php` without a dashboard query string.
@@ -16,7 +24,7 @@
 - Fix: Added missing WP_Error, WP_REST_Request and WP_REST_Response imports to every REST trait. Without these, every REST request raised a fatal error because PHP resolved the unqualified class names inside the plugin's own namespace.
 - Fix: Removed unsupported "Update URI: false" plugin header.
 - Performance: Settings::get() now uses a per-request static cache; previously every call ran the full sanitize() pipeline.
-- Reliability: ImageImporter::used_shutterstock_ids() is now a pure reader. Database sync against attachment postmeta moved to sync_used_ids_from_attachments() and runs on activation.
+- Reliability: ImageImporter::used_shutterstock_ids() is now a pure reader. Database sync against attachment postmeta moved to sync_used_ids_from_attachments() and runs in small scheduled batches after activation.
 - Reliability: Queue option now has a 1000-item hard cap; the oldest items are pruned first when exceeded.
 - i18n: All admin UI strings are English in the source; Dutch fallbacks removed. Removed "WA Corporate" reference.
 - Docs: Removed duplicate installation step in readme.txt; corrected Composer note in README.md.

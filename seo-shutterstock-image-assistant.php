@@ -3,7 +3,7 @@
  * Plugin Name: SEO Image Assistant for Shutterstock
  * Plugin URI: https://webactueel.nl/
  * Description: Premium workflow tool for finding, reviewing, licensing, and attaching Shutterstock images to SEO pages via ACF fields.
- * Version: 1.6.77
+ * Version: 1.6.78
  * Requires at least: 6.5
  * Requires PHP: 8.1
  * Author: Webactueel
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SSIA_VERSION', '1.6.77' );
+define( 'SSIA_VERSION', '1.6.78' );
 define( 'SSIA_FILE', __FILE__ );
 define( 'SSIA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SSIA_URL', plugin_dir_url( __FILE__ ) );
@@ -42,7 +42,7 @@ register_activation_hook(
 	static function (): void {
 		Company\SeoShutterstockAssistant\Upgrade\LegacyPluginReplacer::replace();
 		Company\SeoShutterstockAssistant\Security\Capabilities::activate();
-		Company\SeoShutterstockAssistant\Media\ImageImporter::sync_used_ids_from_attachments();
+		Company\SeoShutterstockAssistant\Media\ImageImporter::schedule_used_ids_sync();
 	}
 );
 

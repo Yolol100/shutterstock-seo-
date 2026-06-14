@@ -406,7 +406,7 @@ final class Client {
 	}
 
 
-	private function validate_api_url( string $url ): true|WP_Error {
+	private function validate_api_url( string $url ): bool|WP_Error {
 		$parts  = wp_parse_url( $url );
 		$scheme = isset( $parts['scheme'] ) ? strtolower( (string) $parts['scheme'] ) : '';
 		$host   = isset( $parts['host'] ) ? strtolower( (string) $parts['host'] ) : '';

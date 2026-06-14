@@ -4,5 +4,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 return array(
 	'dependencies' => array( 'wp-api-fetch', 'wp-components', 'wp-element', 'wp-i18n' ),
-	'version' => '1.6.77',
+	'version' => '1.6.78',
 );

@@ -15,7 +15,8 @@ final class OAuthCallback {
 	}
 
 	public function maybe_handle_callback(): void {
-		if ( ! is_admin() || empty( $_GET['state'] ) || ( empty( $_GET['code'] ) && empty( $_GET['error'] ) ) ) {
+		global $pagenow;
+		if ( ! is_admin() || 'admin.php' !== (string) $pagenow || empty( $_GET['state'] ) || ( empty( $_GET['code'] ) && empty( $_GET['error'] ) ) ) {
 			return;
 		}
 
@@ -28,6 +29,11 @@ final class OAuthCallback {
 
 		if ( empty( $settings['oauth_state'] ) || ! hash_equals( (string) $settings['oauth_state'], $state ) ) {
 			return;
+		}
+
+		if ( empty( $settings['oauth_state_expires_at'] ) || absint( $settings['oauth_state_expires_at'] ) < time() ) {
+			Settings::update_partial( array( 'oauth_state' => '', 'oauth_state_expires_at' => 0 ) );
+			$this->redirect_to_dashboard( 'error', __( 'OAuth state expired. Please start the connection again.', 'seo-shutterstock-image-assistant' ) );
 		}
 
 		if ( ! empty( $_GET['error'] ) ) {

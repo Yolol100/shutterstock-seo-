@@ -4,7 +4,7 @@ Tags: seo, images, shutterstock, acf, elementor
 Requires at least: 6.5
 Requires PHP: 8.1
 Tested up to: 6.8
-Stable tag: 1.6.77
+Stable tag: 1.6.78
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ This plugin stores Shutterstock credentials, selected Shutterstock image IDs, qu
 For final production approval, run Plugin Check, PHPCS/WPCS, PHP lint, JS lint, role-based REST tests, live Shutterstock OAuth/licensing, ACF-on/off checks, queue retry/recovery and uninstall cleanup in staging.
 
 == Changelog ==
-= 1.6.77 =
+= 1.6.78 =
 * UI: Moved all admin toast notifications to bottom-center in the WordPress content area.
 
 = 1.6.76 =

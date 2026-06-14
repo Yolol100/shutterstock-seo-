@@ -25,3 +25,12 @@ The production plugin uses a lightweight internal PSR-4-compatible autoloader re
 ## License
 
 GPL-2.0-or-later.
+
+
+## 1.6.78 hardening notes
+
+- Activation is PHP 8.1-compatible and no longer runs a full Media Library sync immediately.
+- Licensed downloads are checked for allowed MIME type and maximum file size before import.
+- Partial Shutterstock licensing responses keep successful license records available for recovery.
+- Search uses the stored used-ID index instead of scanning all attachments on every request.
+- Uninstall data deletion is disabled by default; enable it explicitly only when permanent cleanup is intended.

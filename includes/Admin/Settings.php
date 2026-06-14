@@ -54,7 +54,7 @@ final class Settings {
 			'safe_search'           => true,
 			'license_size'          => 'huge',
 			'log_retention'         => 500,
-			'delete_data_on_uninstall' => true,
+			'delete_data_on_uninstall' => false,
 		);
 	}
 

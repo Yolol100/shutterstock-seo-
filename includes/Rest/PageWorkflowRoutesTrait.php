@@ -117,7 +117,15 @@ trait PageWorkflowRoutesTrait {
 		$licensed = ( new LicenseService() )->license_images( $image_ids );
 		if ( is_wp_error( $licensed ) ) {
 			ImageImporter::release_reservations( $image_ids, $post_id );
-			QueueManager::update_status( $post_id, 'failed', array( 'message' => $licensed->get_error_message(), 'selected' => $image_ids ) );
+			$error_data = $licensed->get_error_data( $licensed->get_error_code() );
+			$error_data = is_array( $error_data ) ? $error_data : array();
+			$recoverable = $this->recoverable_license_records( (array) ( $error_data['licensed'] ?? array() ) );
+			$status_extra = array( 'message' => $licensed->get_error_message(), 'selected' => $image_ids );
+			if ( ! empty( $recoverable ) ) {
+				$status_extra['licensed'] = $recoverable;
+				$status_extra['recovery'] = 'retry_import';
+			}
+			QueueManager::update_status( $post_id, 'failed', $status_extra );
 			return $licensed;
 		}
 		QueueManager::update_status( $post_id, 'licensed', array( 'selected' => $image_ids ) );

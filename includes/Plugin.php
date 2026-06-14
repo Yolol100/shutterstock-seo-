@@ -4,6 +4,7 @@ namespace Company\SeoShutterstockAssistant;
 use Company\SeoShutterstockAssistant\Admin\Menu;
 use Company\SeoShutterstockAssistant\Admin\OAuthCallback;
 use Company\SeoShutterstockAssistant\Admin\Settings;
+use Company\SeoShutterstockAssistant\Media\ImageImporter;
 use Company\SeoShutterstockAssistant\Rest\Routes;
 use Company\SeoShutterstockAssistant\Queue\QueueManager;
 use Company\SeoShutterstockAssistant\Privacy\PrivacyPolicy;
@@ -29,6 +30,7 @@ final class Plugin {
 		( new QueueManager() )->register();
 		( new PrivacyPolicy() )->register();
 		( new OAuthCallback() )->register();
+		add_action( 'ssia_sync_used_ids_batch', array( ImageImporter::class, 'sync_used_ids_from_attachments' ), 10, 1 );
 
 		if ( is_admin() ) {
 			( new Settings() )->register();

@@ -59,15 +59,16 @@ final class LicenseService {
 			return $response;
 		}
 
+		$response_errors = array();
 		if ( ! empty( $response['errors'] ) ) {
-			$message = is_array( $response['errors'] ) ? wp_json_encode( $response['errors'] ) : (string) $response['errors'];
-			( new Logger() )->error( 'license_response_errors', array( 'message' => $message, 'subscription_id' => $subscription_id ) );
-			return new WP_Error( 'ssia_license_response_errors', sanitize_text_field( (string) $message ), array( 'status' => 400 ) );
+			$response_errors[] = is_array( $response['errors'] ) ? wp_json_encode( $response['errors'] ) : (string) $response['errors'];
 		}
 
 		$licensed = array();
+		$item_errors = array();
 		foreach ( (array) ( $response['data'] ?? array() ) as $item ) {
 			if ( is_array( $item ) && ! empty( $item['error'] ) ) {
+				$item_errors[] = sanitize_text_field( (string) $item['error'] );
 				( new Logger() )->error( 'license_item_error', array( 'message' => sanitize_text_field( (string) $item['error'] ), 'subscription_id' => $subscription_id ) );
 				continue;
 			}
@@ -89,9 +90,20 @@ final class LicenseService {
 			}
 		}
 
-		if ( count( $licensed ) !== count( $image_ids ) ) {
-			( new Logger() )->error( 'license_partial_response', array( 'received' => count( $licensed ), 'expected' => count( $image_ids ) ) );
-			return new WP_Error( 'ssia_partial_license', __( 'Licensing did not return all selected download URLs. Nothing was attached automatically.', 'seo-shutterstock-image-assistant' ), array( 'status' => 502 ) );
+		if ( ! empty( $response_errors ) || ! empty( $item_errors ) || count( $licensed ) !== count( $image_ids ) ) {
+			$message = __( 'Licensing did not return all selected download URLs. Successful licenses were saved for recovery where possible.', 'seo-shutterstock-image-assistant' );
+			( new Logger() )->error( 'license_partial_response', array( 'received' => count( $licensed ), 'expected' => count( $image_ids ), 'errors' => implode( ' | ', array_merge( $response_errors, $item_errors ) ) ) );
+			return new WP_Error(
+				empty( $licensed ) ? 'ssia_license_response_errors' : 'ssia_partial_license',
+				$message,
+				array(
+					'status'              => empty( $licensed ) ? 400 : 207,
+					'licensed'            => $licensed,
+					'requested_image_ids' => $image_ids,
+					'errors'              => array_values( array_filter( array_merge( $response_errors, $item_errors ) ) ),
+					'recovery'            => empty( $licensed ) ? '' : 'retry_import',
+				)
+			);
 		}
 
 		return $licensed;
