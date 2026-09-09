@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.79
+- Verify plugin activation on WordPress 6.5 / PHP 8.1 and WordPress 7.1 / PHP 8.3 with ACF 6.8.9 in a clean controlled runtime.
+- Add a pinned GitHub Actions compatibility gate for future WordPress upgrades without configuring or calling Shutterstock.
+
 ## 1.6.78
 - Fix activation fatal risk on PHP 8.1 by replacing PHP 8.2-only `true` return types.
 - Fix activation timeout/memory risk by moving legacy attachment sync to small scheduled batches.
@@ -8,11 +12,9 @@
 - Remove Media Library attachment scans from the search hot path.
 - Narrow OAuth callback handling to `admin.php` and reject expired state before token exchange.
 - Default uninstall data deletion to off for safer accidental uninstall recovery.
-
 - Moved every admin toast notification to bottom-center within the WordPress content area.
 - Use a queryless WordPress admin callback URL for Shutterstock OAuth compatibility.
 - Add server-side OAuth callback handling so Shutterstock can redirect to `/wp-admin/admin.php` without a dashboard query string.
-
 
 ## 1.6.74
 - Security hardening: queue recovery records no longer persist temporary Shutterstock download URLs or sensitive token-like fields.
