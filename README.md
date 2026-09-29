@@ -1,5 +1,9 @@
 # SEO Image Assistant for Shutterstock
 
+> **Supporting portfolio project · WordPress/PHP · Shutterstock API/OAuth · ACF · media workflow**
+
+**Built by:** [Andrew Baeten](https://github.com/Yolol100) · [Portfolio cases](https://andrewbaeten.nl/category/cases)
+
 SEO Image Assistant for Shutterstock is a WordPress workflow plugin for finding, reviewing, licensing and attaching Shutterstock images to SEO pages through supported ACF image fields.
 
 ## Features
