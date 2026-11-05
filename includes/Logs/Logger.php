@@ -50,9 +50,13 @@ final class Logger {
 	}
 
 	private function redact( array $context ): array {
-		foreach ( array( 'api_key', 'api_secret', 'access_token', 'refresh_token', 'oauth_client_secret', 'authorization', 'Authorization', 'token', 'password' ) as $key ) {
-			if ( isset( $context[ $key ] ) ) {
+		$sensitive_keys = array_fill_keys( array( 'apikey', 'apisecret', 'accesstoken', 'refreshtoken', 'oauthclientsecret', 'clientsecret', 'authorization', 'token', 'password' ), true );
+		foreach ( $context as $key => $value ) {
+			$normalized_key = preg_replace( '/[^a-z0-9]/', '', strtolower( (string) $key ) );
+			if ( isset( $sensitive_keys[ $normalized_key ] ) ) {
 				$context[ $key ] = '[redacted]';
+			} elseif ( is_array( $value ) ) {
+				$context[ $key ] = $this->redact( $value );
 			}
 		}
 		return $context;
