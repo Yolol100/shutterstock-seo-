@@ -92,6 +92,12 @@ jobs:
           php /tmp/wp-cli.phar plugin status seo-shutterstock-image-assistant --path="$runtime"
           php /tmp/wp-cli.phar eval 'echo defined("SSIA_VERSION") ? SSIA_VERSION . "\n" : "missing\n";' --path="$runtime"
 
+      - name: Verify sensitive nested log fields are redacted
+        shell: bash
+        run: |
+          set -euo pipefail
+          php /tmp/wp-cli.phar eval-file "$GITHUB_WORKSPACE/tests/wp-cli-logger-redaction.php" --path=/tmp/shutterstock-seo-runtime
+
       - name: Reject runtime PHP errors
         if: always()
         shell: bash
